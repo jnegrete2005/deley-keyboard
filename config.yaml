@@ -1,0 +1,727 @@
+meta:
+  engine: 4.1.0
+  name: de-ley
+  version: 0.1
+  ref: &kb_ref 'De Ley v0.1'
+  author: jokkess
+  footprint: &switch_footprint 'ceoloide/switch_mx'
+  size: 'A4'
+  switch:
+    $extends: presets.mx
+
+presets:
+  mx:
+    kx: u # spacing between key centers (X-axis)
+    ky: u # spacing between key centers (Y-axis)
+    ks: 19 # horizontal space between columns (default: 19)
+    kp: 19 # vertical padding between keys (deafult: 19)
+    kcow: 14 # key cutout hole width (cherry: 14, choc: 13.8)
+    kcoh: 14 # key cutout hole height (cherry: 14, choc: 13.8)
+    keycw: 18 # keycap width (cherry: 18, choc: 17.5)
+    keych: 18 # keycap height (cherry: 18, choc: 16.5)
+    led_pos_x: 0 # Led X position relative to the switch center
+    led_pos_y: -4.75 # Led Y position relative to the switch center
+    led_rotation: 180 # Led rotation
+    vertical_underglow_shift: -0.5 kp # How much to shift underglow leds tied to keys
+    vertical_diode_shift: -1.5 # How much to shift to avoid overlap
+    horizontal_diode_shift: 7.5
+    diode_rotation: 90 # Diode rotation
+    switch_rotation: 0 # Hotswap north, led south
+
+units:
+  $extends: meta.switch
+
+  # Physical measures
+  screw_radius: 1.1 # M2 screws
+  screw_diameter: screw_radius * 2
+  screw_head_radius: 2.05
+  screw_head_diameter: screw_head_radius * 2
+  spacer_radius: 2.15 # M2 standoffs
+  spacer_diameter: spacer_radius * 2
+  fillet_radius: 0.5
+  pwr_trace_width: 0.25
+  gnd_trace_width: 0.25
+  signal_trace_width: 0.15
+
+  pushX: (cx / 2)
+  pushY: (cy / 2)
+
+points:
+  zones:
+    main:
+      anchor:
+        shift: [110, -170]
+      columns:
+        outer3:
+          key:
+            asym: clone
+            column_net: P1
+          rows:
+            home.skip: true
+            bottom.skip: true
+            number.key:
+              led_prev: LED_31
+              led_next: LED_32
+            top.key:
+              led_prev: LED_32
+              led_next: LED_33
+        outer2:
+          key:
+            asym: clone
+            column_net: P2
+          rows:
+            bottom.skip: true
+            number.key:
+              led_prev: LED_30
+              led_next: LED_31
+            top.key:
+              led_prev: LED_33
+              led_next: LED_34
+            home.key:
+              led_prev: LED_34
+              led_next: LED_35
+
+        outer:
+          key:
+            column_net: P1
+            mirror.column_net: P3
+          rows:
+            bottom.key:
+              led_prev: LED_25
+              led_next: LED_26
+            home.key:
+              led_prev: LED_26
+              led_next: LED_27
+            top.key:
+              led_prev: LED_27
+              led_next: LED_28
+            number.key:
+              led_prev: LED_28
+              led_next: LED_29
+        pinky:
+          key:
+            stagger: 1
+            column_net: P0
+            mirror.column_net: P18
+          rows:
+            number.key:
+              led_prev: LED_21
+              led_next: LED_22
+            top.key:
+              led_prev: LED_22
+              led_next: LED_23
+            home.key:
+              led_prev: LED_23
+              led_next: LED_24
+            bottom.key:
+              led_prev: LED_24
+              led_next: LED_25
+        ring:
+          key:
+            stagger: 6
+            column_net: P2
+            mirror.column_net: P4
+          rows:
+            bottom.key:
+              led_prev: LED_17
+              led_next: LED_18
+            home.key:
+              led_prev: LED_18
+              led_next: LED_19
+            top.key:
+              led_prev: LED_19
+              led_next: LED_20
+            number.key:
+              led_prev: LED_20
+              led_next: LED_21
+        middle:
+          key:
+            stagger: 5
+            column_net: P3
+            mirror.column_net: P14
+          rows:
+            number.key:
+              led_prev: LED_11
+              led_next: LED_12
+            top.key:
+              led_prev: LED_12
+              led_next: LED_13
+            home.key:
+              led_prev: LED_13
+              led_next: LED_14
+            bottom.key:
+              led_prev: LED_14
+              led_next: LED_15
+        index:
+          key:
+            stagger: -5
+            column_net: P4
+            mirror.column_net: P8
+          rows:
+            bottom.key:
+              led_prev: LED_7
+              led_next: LED_8
+            home.key:
+              led_prev: LED_8
+              led_next: LED_9
+            top.key:
+              led_prev: LED_9
+              led_next: LED_10
+            number.key:
+              led_prev: LED_10
+              led_next: LED_11
+        inner:
+          key:
+            stagger: -2
+            column_net: P20
+            mirror.column_net: P19
+          rows:
+            number.key:
+              led_prev: LED_0
+              led_next: LED_1
+            top.key:
+              led_prev: LED_1
+              led_next: LED_2
+            home.key:
+              led_prev: LED_2
+              led_next: LED_3
+            bottom.key:
+              led_prev: LED_3
+              led_next: LED_4
+      rows:
+        bottom:
+          row_net: P10
+          mirror.row_net: P10
+        home:
+          row_net: P16
+          mirror.row_net: P9
+        top:
+          row_net: P19
+          mirror.row_net: P15
+        number:
+          row_net: P21
+          mirror.row_net: P0
+
+    thumbfan:
+      anchor:
+        ref: main_ring_bottom
+        shift: [9.5, -u]
+      columns:
+        near:
+          key:
+            column_net: P0
+            mirror.column_net: P18
+          rows.bottom.key:
+            led_prev: LED_16
+            led_next: LED_17
+        home:
+          key:
+            column_net: P2
+            mirror.column_net: P4
+          rows.bottom.key:
+            led_prev: LED_15
+            led_next: LED_16
+        far:
+          key:
+            stagger: -2
+            column_net: P3
+            mirror.column_net: P14
+          rows.bottom.key:
+            led_prev: LED_6
+            led_next: LED_7
+        double:
+          key:
+            width: 1.5u
+            spread: 26
+            splay: 66
+            stagger: 0.9
+            keycap_width: 1.5u
+            column_net: P4
+            mirror.column_net: P8
+          rows.bottom.key:
+            led_prev: LED_5
+            led_next: LED_6
+      rows:
+        bottom:
+          row_net: P9
+          mirror.row_net: P16
+
+    extra:
+      anchor:
+        ref: main_inner_bottom
+        shift: [19, 9.5]
+      columns:
+        main:
+          key:
+            column_net: P20
+            mirror.column_net: P19
+          rows.main.key:
+            led_prev: LED_4
+            led_next: LED_5
+      rows:
+        main:
+          row_net: P9
+          mirror.row_net: P16
+
+    numpad:
+      key.asym: source
+      key.tags: numpad
+      anchor:
+        ref: main_outer_bottom
+        shift: [19 * -5, 0]
+      columns:
+        left:
+          key.column_net: P1
+        mid_left:
+          key.column_net: P2
+          rows.bottom:
+            width: 2u - 1
+            adjust.shift: [0.5u, 0]
+        mid_right:
+          key.column_net: P3
+          rows.bottom.skip: true
+        right:
+          key.column_net: P4
+      rows:
+        bottom:
+          row_net: P5
+        mid_bottom:
+          row_net: P6
+        mid_upper:
+          row_net: P7
+        upper:
+          row_net: P8
+
+  mirror: &mirror
+    ref: main_inner_top
+    distance: -4u
+
+outlines:
+  left:
+    - what: polygon
+      operation: stack
+      fillet: 2
+      points:
+        - ref: main_outer_number
+          shift: [-0.5u, 0.5u]
+        - ref: main_outer_number
+          shift: [0.5u, 0.5u]
+        - ref: main_pinky_number
+          shift: [-0.5u, 0.5u]
+        - ref: main_pinky_number
+          shift: [0.5u, 0.5u]
+        - ref: main_ring_number
+          shift: [-0.5u, 0.5u]
+        - ref: main_ring_number
+          shift: [0.5u, 0.5u]
+        - ref: main_middle_number
+          shift: [-0.5u, 0.5u]
+        - ref: main_middle_number
+          shift: [0.5u, 0.5u]
+        - ref: main_index_number
+          shift: [-0.5u, 0.5u]
+        - ref: main_index_number
+          shift: [0.5u, 0.5u]
+        - ref: main_inner_number
+          shift: [-0.5u, 0.5u]
+        - ref: main_inner_number
+          shift: [2u, 0.5u]
+        - ref: extra_main_main
+          shift: [1u, 0]
+        - ref: thumbfan_double_bottom
+          shift: [0.75u, -0.5u]
+        - ref: thumbfan_double_bottom
+          shift: [-0.75u, -0.5u]
+        - ref: thumbfan_double_bottom
+          shift: [-0.75u, 0.5u]
+        - ref: thumbfan_near_bottom
+          shift: [-0.5u, -0.5u - 0.75]
+        - ref: thumbfan_near_bottom
+          shift: [-0.5u, 2.5]
+        - ref: main_outer_bottom
+          shift: [-0.5u, -0.5u]
+
+  right:
+    - what: polygon
+      operation: stack
+      fillet: 2
+      points:
+        - ref: mirror_main_outer3_number
+          shift: [-0.5u - 1, 0.5u]
+        - ref: mirror_main_outer_number
+          shift: [0.5u, 0.5u]
+        - ref: mirror_main_pinky_number
+          shift: [-0.5u, 0.5u]
+        - ref: mirror_main_pinky_number
+          shift: [0.5u - 1, 0.5u]
+        - ref: mirror_main_ring_number
+          shift: [-0.5u - 1, 0.5u]
+        - ref: mirror_main_ring_number
+          shift: [0.5u - 1, 0.5u]
+        - ref: mirror_main_middle_number
+          shift: [-0.5u - 1, 0.5u]
+        - ref: mirror_main_middle_number
+          shift: [0.5u, 0.5u]
+        - ref: mirror_main_index_number
+          shift: [-0.5u, 0.5u]
+        - ref: mirror_main_index_number
+          shift: [0.5u, 0.5u]
+        - ref: mirror_main_inner_number
+          shift: [-0.5u, 0.5u]
+        - ref: mirror_main_inner_number
+          shift: [2u, 0.5u]
+        - ref: mirror_extra_main_main
+          shift: [1u, 0]
+        - ref: mirror_thumbfan_double_bottom
+          shift: [0.75u, -0.5u]
+        - ref: mirror_thumbfan_double_bottom
+          shift: [-0.75u, -0.5u]
+        - ref: mirror_thumbfan_double_bottom
+          shift: [-0.75u, 0.5u]
+        - ref: mirror_thumbfan_near_bottom
+          shift: [-0.5u - 1, -0.5u - 0.75]
+        - ref: mirror_thumbfan_near_bottom
+          shift: [-0.5u - 1, 2.5]
+        - ref: mirror_main_outer_bottom
+          shift: [-0.5u - 1, -0.5u]
+        - ref: mirror_main_outer_bottom
+          shift: [-0.5u - 1, 0.5u]
+        - ref: mirror_main_outer2_home
+          shift: [-0.5u - 1, -0.5u]
+        - ref: mirror_main_outer2_home
+          shift: [-0.5u - 1, 0.5u]
+        - ref: mirror_main_outer3_top
+          shift: [-0.5u - 1, -0.5u]
+
+  numpad:
+    - what: polygon
+      operation: stack
+      points:
+        - ref: numpad_left_upper
+          shift: [-0.5u, 0.5u]
+        - ref: numpad_right_upper
+          shift: [0.5u, 0.5u]
+        - ref: numpad_right_bottom
+          shift: [0.5u, -0.5u]
+        - ref: numpad_left_bottom
+          shift: [-0.5u, -0.5u]
+      fillet: 2
+
+pcbs:
+  left:
+    template: kicad8
+    outlines:
+      main:
+        outline: left
+    footprints:
+      keyswitches:
+        what: *switch_footprint
+        where: /^(main|thumbfan|extra).*$/
+        params:
+          hotswap: true
+          from: '{{column_net}}'
+          to: '{{colrow}}'
+          include_silkscreen: false
+        adjust:
+          rotate: switch_rotation
+      key_leds:
+        what: ceoloide/led_sk6812mini-e
+        where: /^(main|thumbfan|extra).*$/
+        adjust:
+          shift: [led_pos_x, led_pos_y]
+          rotate: led_rotation
+        params:
+          P1: VCC
+          P2: '{{key.led_next}}'
+          P3: GND
+          P4: '{{key.led_prev}}'
+          include_keepout: false
+          include_courtyard: false
+          include_gnd_via: true
+      supermini:
+        what: ceoloide/mcu_supermini_nrf52840
+        where:
+          ref: main_inner_number
+          shift: [u + 4.5, -0.5u]
+        params:
+          side: 'F'
+          reverse_mount: true
+          P15: LED_0
+      nice_view:
+        what: ceoloide/display_nice_view
+        where:
+          ref: main_inner_number
+          shift: [u + 4.5, -0.5u - 3]
+        params:
+          CS: P7
+          SCK: P6
+          MOSI: P5
+          include_labels: false
+      diodes:
+        what: ceoloide/diode_tht_sod123
+        where: /^(main|thumbfan|extra).*$/
+        adjust:
+          shift: [horizontal_diode_shift, vertical_diode_shift]
+          rotate: diode_rotation
+        params:
+          from: '{{colrow}}'
+          to: '{{row_net}}'
+          use_via: true
+      jstph:
+        what: ceoloide/battery_connector_jst_ph_2
+        where:
+          ref: main_inner_home
+          shift: [-0.4u + 0.55, 0.4u]
+          rotate: 180
+        params:
+          side: 'B'
+          BAT_P: pos
+          BAT_N: GND
+          include_courtyard: false
+      horizontal_reset:
+        what: ceoloide/reset_switch_smd_side
+        where:
+          ref: main_inner_number
+          shift: [2u - 2, 0]
+          rotate: -90
+        params:
+          from: GND
+          to: RST
+      power_switch:
+        what: ceoloide/power_switch_smd_side
+        where:
+          ref: main_inner_number
+          shift: [2u - 2.5, -10]
+        params:
+          from: pos
+          to: RAW
+      # Mounting holes
+      hole_bottom_right:
+        what: ceoloide/mounting_hole_npth
+        where:
+          ref: thumbfan_double_bottom
+          shift: [-pushX, pushY]
+      hole_bottom_left:
+        what: ceoloide/mounting_hole_npth
+        where:
+          ref: main_outer_bottom
+          shift: [pushX, pushY]
+      hole_top_left:
+        what: ceoloide/mounting_hole_npth
+        where:
+          ref: main_outer_number
+          shift: [pushX, -pushY]
+      hole_top_right:
+        what: ceoloide/mounting_hole_npth
+        where:
+          ref: main_inner_number
+          shift: [-pushX, -pushY]
+      hole_center:
+        what: ceoloide/mounting_hole_npth
+        where:
+          ref: main_middle_home
+          shift: [0, pushY]
+      # Text
+      text_side:
+        what: ceoloide/utility_text
+        where:
+          ref: main_inner_number
+          shift: [u + 4.5, 0]
+        params:
+          text: 'L'
+          width: 3
+          height: 3
+          reversible: true
+      text_de:
+        what: ceoloide/utility_text
+        where:
+          ref: extra_main_main
+          shift: [u - 2.6, 1.4u]
+          rotate: 90
+        params:
+          text: 'DE'
+          width: 3
+          height: 3
+      text_jokkess:
+        what: ceoloide/utility_text
+        where:
+          ref: extra_main_main
+          shift: [0, 0.6u]
+        params:
+          text: 'Jokkess'
+          width: 3
+          height: 3
+          side: 'B'
+          mirrored: true
+  right:
+    template: kicad8
+    outlines.main.outline: right
+    footprints:
+      keyswitches:
+        what: *switch_footprint
+        where: /^mirror.*$/
+        params:
+          hotswap: true
+          from: '{{column_net}}'
+          to: '{{colrow}}'
+          include_silkscreen: false
+        adjust:
+          rotate: switch_rotation
+      key_leds:
+        what: ceoloide/led_sk6812mini-e
+        where: /^mirror.*$/
+        adjust:
+          shift: [led_pos_x, led_pos_y]
+          rotate: led_rotation
+        params:
+          P1: VCC
+          P2: '{{key.led_next}}'
+          P3: GND
+          P4: '{{key.led_prev}}'
+          include_keepout: false
+          include_courtyard: false
+          include_gnd_via: true
+      supermini:
+        what: ceoloide/mcu_supermini_nrf52840
+        where:
+          ref: mirror_main_inner_number
+          shift: [u + 4.5, -0.5u]
+        params:
+          side: 'F'
+          reverse_mount: true
+          P21: LED_0
+      nice_view:
+        what: ceoloide/display_nice_view
+        where:
+          ref: mirror_main_inner_number
+          shift: [u + 4.5, -0.5u - 3]
+        params:
+          CS: P7
+          SCK: P6
+          MOSI: P5
+          include_labels: false
+      diodes:
+        what: ceoloide/diode_tht_sod123
+        where: /^mirror_(main|thumbfan|extra).*$/
+        adjust:
+          shift: [-horizontal_diode_shift, vertical_diode_shift]
+          rotate: diode_rotation + 180
+        params:
+          from: '{{colrow}}'
+          to: '{{row_net}}'
+          use_via: true
+      jstph:
+        what: ceoloide/battery_connector_jst_ph_2
+        where:
+          ref: mirror_main_index_home
+          shift: [0.5u - 0.5, -0.5u - 0.5]
+          rotate: 180
+        params:
+          side: 'B'
+          BAT_P: pos
+          BAT_N: GND
+          include_courtyard: false
+      horizontal_reset:
+        what: ceoloide/reset_switch_smd_side
+        where:
+          ref: mirror_main_inner_number
+          shift: [2u - 2, 0]
+          rotate: -90
+        params:
+          from: GND
+          to: RST
+      power_switch:
+        what: ceoloide/power_switch_smd_side
+        where:
+          ref: mirror_main_inner_number
+          shift: [2u - 2.5, -10]
+          rotate: 180
+        params:
+          from: pos
+          to: RAW
+      # Mounting holes
+      hole_bottom_right:
+        what: ceoloide/mounting_hole_npth
+        where:
+          ref: mirror_thumbfan_double_bottom
+          shift: [-pushX, pushY]
+      hole_bottom_left:
+        what: ceoloide/mounting_hole_npth
+        where:
+          ref: mirror_main_outer_bottom
+          shift: [pushX, pushY]
+      hole_top_left:
+        what: ceoloide/mounting_hole_npth
+        where:
+          ref: mirror_main_outer_number
+          shift: [pushX, -pushY]
+      hole_top_right:
+        what: ceoloide/mounting_hole_npth
+        where:
+          ref: mirror_main_inner_number
+          shift: [-pushX, -pushY]
+      hole_center:
+        what: ceoloide/mounting_hole_npth
+        where:
+          ref: mirror_main_middle_home
+          shift: [0, pushY]
+      # Text
+      text_side:
+        what: ceoloide/utility_text
+        where:
+          ref: mirror_main_inner_number
+          shift: [u + 4.5, 0]
+        params:
+          text: 'R'
+          width: 3
+          height: 3
+          reversible: true
+      text_ley:
+        what: ceoloide/utility_text
+        where:
+          ref: mirror_extra_main_main
+          shift: [u - 2.6, 1.4u]
+          rotate: 90
+        params:
+          text: 'LEY'
+          width: 3
+          height: 3
+      text_jokkess:
+        what: ceoloide/utility_text
+        where:
+          ref: mirror_extra_main_main
+          shift: [0, 0.6u]
+        params:
+          text: 'Jokkess'
+          width: 3
+          height: 3
+          side: 'B'
+          mirrored: true
+
+  numpad:
+    template: kicad8
+    outlines.main.outline: numpad
+    footprints:
+      keyswitches:
+        what: *switch_footprint
+        where: numpad
+        params:
+          hotswap: true
+          from: '{{column_net}}'
+          to: '{{colrow}}'
+          include_silkscreen: false
+        adjust:
+          rotate: switch_rotation
+      supermini:
+        what: ceoloide/mcu_supermini_nrf52840
+        where:
+          ref: numpad_left_upper
+      diodes:
+        what: ceoloide/diode_tht_sod123
+        where: /^numpad.*/
+        adjust:
+          shift: [horizontal_diode_shift, vertical_diode_shift]
+          rotate: diode_rotation
+        params:
+          from: '{{colrow}}'
+          to: '{{row_net}}'

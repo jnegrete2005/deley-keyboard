@@ -1,0 +1,1 @@
+xdg-open ./output/pcbs/$1.kicad_pcb
