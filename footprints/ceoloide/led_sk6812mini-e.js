@@ -51,7 +51,7 @@
 //      or above 0.8 (KiCad default), to avoid overlap or DRC errors
 //    via_drill: default is 0.4
 //      allows to define the size of the drill. Not recommended below 0.3 (JLCPCB minimum),
-//      or above 0.4 (KiCad default), to avoid overlap or DRC errors
+//      or above 0.4 (KiCad default), to avoid overlap or DRC errors 
 //    include_courtyard: default is true
 //      if true it will include the part courtyard
 //    include_keepout: default is false
@@ -71,32 +71,31 @@
 //      model relative the footprint.
 
 module.exports = {
-	params: {
-		designator: 'LED',
-		side: 'B',
-		reversible: false,
-		reverse_mount: true,
-		include_gnd_via: false,
-		include_traces_vias: true,
-		signal_trace_width: 0.2,
-		gnd_trace_width: 0.2,
-		vcc_trace_width: 0.2,
-		via_size: 0.6,
-		via_drill: 0.3,
-		include_courtyard: true,
-		include_keepout: false,
-		led_3dmodel_filename: '',
-		led_3dmodel_xyz_offset: [0, 0, 0],
-		led_3dmodel_xyz_rotation: [0, 0, 0],
-		led_3dmodel_xyz_scale: [1, 1, 1],
-		P1: { type: 'net', value: 'VCC' },
-		P2: undefined,
-		P3: { type: 'net', value: 'GND' },
-		P4: undefined,
-	},
-	body: (p) => {
-		const standard_opening = `
-  (footprint "ceoloide:led_SK6812mini-e (${p.reverse_mount ? 'per-key' : 'underglow'}${p.reversible ? ', reversible' : 'single-side'})" 
+  params: {
+    designator: 'LED',
+    side: 'B',
+    reversible: false,
+    reverse_mount: true,
+    include_traces_vias: true,
+    signal_trace_width: 0.25,
+    gnd_trace_width: 0.25,
+    vcc_trace_width: 0.25,
+    via_size: 0.8,
+    via_drill: 0.4,
+    include_courtyard: true,
+    include_keepout: false,
+    led_3dmodel_filename: '',
+    led_3dmodel_xyz_offset: [0, 0, 0],
+    led_3dmodel_xyz_rotation: [0, 0, 0],
+    led_3dmodel_xyz_scale: [1, 1, 1],
+    P1: { type: 'net', value: 'VCC' },
+    P2: undefined,
+    P3: { type: 'net', value: 'GND' },
+    P4: undefined,
+  },
+  body: p => {
+    const standard_opening = `
+  (footprint "ceoloide:led_SK6812mini-e (${p.reverse_mount ? "per-key" : "underglow"}${p.reversible ? ", reversible" : "single-side"})" 
     (layer "${p.side}.Cu")
     ${p.at}
     (property "Reference" "${p.ref}"
@@ -123,54 +122,54 @@ module.exports = {
     (fp_line (start 1.6 -0.37) (end 2.94 -0.37) (layer "Dwgs.User") (stroke (width 0.12) (type solid)))
     (fp_line (start 2.94 -1.05) (end 1.6 -1.05) (layer "Dwgs.User") (stroke (width 0.12) (type solid)))
     (fp_line (start 2.94 -0.37) (end 2.94 -1.05) (layer "Dwgs.User") (stroke (width 0.12) (type solid)))
-    `;
-		const marks_reversed = `
+    `
+    const marks_reversed = `
     (fp_line (start -0.8 -1.4) (end -0.8 1.4) (layer "Dwgs.User") (stroke (width 0.12) (type solid)))
     (fp_line (start 0.8 -1.4) (end 0.8 1.4) (layer "Dwgs.User") (stroke (width 0.12) (type solid)))
     (fp_line (start -1 -1.4) (end -1 1.4) (layer "Dwgs.User") (stroke (width 0.12) (type solid)))
     (fp_line (start 1 -1.4) (end 1 1.4) (layer "Dwgs.User") (stroke (width 0.12) (type solid)))
-    `;
-		const marks_straight = `
+    `
+    const marks_straight = `
     (fp_line (start -1.6 -0.7) (end -0.8 -1.4) (layer "Dwgs.User") (stroke (width 0.12) (type solid)))
-    `;
-		const front_reversed = `
+    `
+    const front_reversed = `
     (fp_line (start -3.8 1.6) (end -2.2 1.6) (layer "F.SilkS") (stroke (width 0.12) (type solid)))
     (fp_line (start -3.8 0) (end -3.8 1.6) (layer "F.SilkS") (stroke (width 0.12) (type solid)))
     (pad "4" smd rect (at -2.7 -0.7 ${p.r}) (size 1.4 1) (layers "F.Cu" "F.Paste" "F.Mask") ${p.P4.str})
     (pad "3" smd rect (at -2.7 0.7 ${p.r}) (size 1.4 1) (layers "F.Cu" "F.Paste" "F.Mask") ${p.P3.str})
     (pad "1" smd rect (at 2.7 -0.7 ${p.r}) (size 1.4 1) (layers "F.Cu" "F.Paste" "F.Mask") ${p.P1.str})
     (pad "2" smd rect (at 2.7 0.7 ${p.r}) (size 1.4 1) (layers "F.Cu" "F.Paste" "F.Mask") ${p.P2.str})
-    `;
-		const front = `
+    `
+    const front = `
     (fp_line (start -3.8 -1.6) (end -2.2 -1.6) (layer "F.SilkS") (stroke (width 0.12) (type solid)))
     (fp_line (start -3.8 0) (end -3.8 -1.6) (layer "F.SilkS") (stroke (width 0.12) (type solid)))
     (pad "4" smd rect (at -2.70 0.7 ${p.r}) (size 1.4 1) (layers "F.Cu" "F.Paste" "F.Mask") ${p.P4.str})
     (pad "3" smd rect (at -2.70 -0.7 ${p.r}) (size 1.4 1) (layers "F.Cu" "F.Paste" "F.Mask") ${p.P3.str})
     (pad "1" smd rect (at 2.70 0.7 ${p.r}) (size 1.4 1) (layers "F.Cu" "F.Paste" "F.Mask") ${p.P1.str})
     (pad "2" smd rect (at 2.70 -0.7 ${p.r}) (size 1.4 1) (layers "F.Cu" "F.Paste" "F.Mask") ${p.P2.str})
-    `;
-		const back_reversed = `
+    `
+    const back_reversed = `
     (fp_line (start -3.8 -1.6) (end -2.2 -1.6) (layer "B.SilkS") (stroke (width 0.12) (type solid)))
     (fp_line (start -3.8 0) (end -3.8 -1.6) (layer "B.SilkS") (stroke (width 0.12) (type solid)))
     (pad "2" smd rect (at 2.70 -0.7 ${p.r}) (size 1.4 1) (layers "B.Cu" "B.Paste" "B.Mask") ${p.P2.str})
     (pad "1" smd rect (at 2.70 0.7 ${p.r}) (size 1.4 1) (layers "B.Cu" "B.Paste" "B.Mask") ${p.P1.str})
     (pad "3" smd rect (at -2.70 -0.7 ${p.r}) (size 1.4 1) (layers "B.Cu" "B.Paste" "B.Mask") ${p.P3.str})
     (pad "4" smd rect (at -2.70 0.7 ${p.r}) (size 1.4 1) (layers "B.Cu" "B.Paste" "B.Mask") ${p.P4.str})
-    `;
-		const back = `
+    `
+    const back = `
     (fp_line (start -3.8 1.6) (end -2.2 1.6) (layer "B.SilkS") (stroke (width 0.12) (type solid)))
     (fp_line (start -3.8 0) (end -3.8 1.6) (layer "B.SilkS") (stroke (width 0.12) (type solid)))
     (pad "2" smd rect (at 2.70 0.7 ${p.r}) (size 1.4 1) (layers "B.Cu" "B.Paste" "B.Mask") ${p.P2.str})
     (pad "1" smd rect (at 2.70 -0.7 ${p.r}) (size 1.4 1) (layers "B.Cu" "B.Paste" "B.Mask") ${p.P1.str})
     (pad "3" smd rect (at -2.70 0.7 ${p.r}) (size 1.4 1) (layers "B.Cu" "B.Paste" "B.Mask") ${p.P3.str})
     (pad "4" smd rect (at -2.70 -0.7 ${p.r}) (size 1.4 1) (layers "B.Cu" "B.Paste" "B.Mask") ${p.P4.str})
-    `;
-		const standard_closing = `
+    `
+    const standard_closing = `
     (fp_rect (start -1.8 -1.55) (end 1.8 1.55) (layer "Edge.Cuts") (stroke (width 0.12) (type solid)) (fill none))
   )
-    `;
+    `
 
-		const traces_vias_reversed = `
+    const traces_vias_reversed = `
   ${'' /* VCC Trace */}
   (segment (start ${p.eaxy(3.4, -0.7)}) (end ${p.eaxy(4.06, -0.105916)}) (width ${p.vcc_trace_width}) (layer "F.Cu") (net ${p.P1.index}))
   (segment (start ${p.eaxy(4.06, -0.105916)}) (end ${p.eaxy(4.06, 0.7)}) (width ${p.vcc_trace_width}) (layer "F.Cu") (net ${p.P1.index}))
@@ -197,14 +196,9 @@ module.exports = {
   (segment (start ${p.eaxy(-3.481, 1.485)}) (end ${p.eaxy(-4.529, 1.485)}) (width ${p.signal_trace_width}) (layer "B.Cu") (net ${p.P4.index}))
   (segment (start ${p.eaxy(-4.95, 1.06)}) (end ${p.eaxy(-4.95, -0.7)}) (width ${p.signal_trace_width}) (layer "B.Cu") (net ${p.P4.index}))
   (segment (start ${p.eaxy(-4.529, 1.485)}) (end ${p.eaxy(-4.95, 1.06)}) (width ${p.signal_trace_width}) (layer "B.Cu") (net ${p.P4.index}))
-    `;
+    `
 
-		const gnd_via_reversed = `
-    (segment (start ${p.eaxy(-2.7, -0.7)}) (end ${p.eaxy(-4.5, -0.7)}) (width ${p.gnd_trace_width}) (layer "B.Cu") (net ${p.P3.index}))
-    (via (at ${p.eaxy(-4.5, -0.7)}) (size ${p.via_size}) (drill ${p.via_drill}) (layers "F.Cu" "B.Cu") (net ${p.P3.index}))
-    `;
-
-		const traces_vias_straight = `
+    const traces_vias_straight = `
   ${'' /* VCC Trace */}
   (segment (start ${p.eaxy(3.4, -0.7)}) (end ${p.eaxy(4.06, -0.105916)}) (width ${p.vcc_trace_width}) (layer "B.Cu") (net ${p.P1.index}))
   (segment (start ${p.eaxy(4.06, -0.105916)}) (end ${p.eaxy(4.06, 0.7)}) (width ${p.vcc_trace_width}) (layer "B.Cu") (net ${p.P1.index}))
@@ -231,9 +225,9 @@ module.exports = {
   (segment (start ${p.eaxy(-3.481, 1.485)}) (end ${p.eaxy(-4.529, 1.485)}) (width ${p.signal_trace_width}) (layer "F.Cu") (net ${p.P4.index}))
   (segment (start ${p.eaxy(-4.95, 1.06)}) (end ${p.eaxy(-4.95, -0.7)}) (width ${p.signal_trace_width}) (layer "F.Cu") (net ${p.P4.index}))
   (segment (start ${p.eaxy(-4.529, 1.485)}) (end ${p.eaxy(-4.95, 1.06)}) (width ${p.signal_trace_width}) (layer "F.Cu") (net ${p.P4.index}))
-    `;
+    `
 
-		const courtyard_front = `
+    const courtyard_front = `
     (fp_poly
       (pts
         (xy 1.6 -1.05)
@@ -263,9 +257,9 @@ module.exports = {
 			)
       (layer "B.CrtYd")
     )
-    `;
+    `
 
-		const courtyard_back = `
+    const courtyard_back = `
     (fp_poly
       (pts
         (xy 1.6 -1.05)
@@ -295,9 +289,9 @@ module.exports = {
 			)
       (layer "B.CrtYd")
     )
-    `;
+    `
 
-		const keepout = `
+    const keepout = `
   (zone
     (net 0)
     (net_name "")
@@ -319,70 +313,66 @@ module.exports = {
 		)
     (polygon
       (pts
-        (xy ${p.eaxy(-2.0, -1.85)})
-        (xy ${p.eaxy(2.0, -1.85)})
-        (xy ${p.eaxy(2.0, 1.85)})
-        (xy ${p.eaxy(-2.0, 1.85)})
+        (xy ${p.eaxy(-2.00, -1.85)})
+        (xy ${p.eaxy(2.00, -1.85)})
+        (xy ${p.eaxy(2.00, 1.85)})
+        (xy ${p.eaxy(-2.00, 1.85)})
       )
     )
   )
-    `;
+    `
 
-		const led_3dmodel = `
+    const led_3dmodel = `
     (model ${p.led_3dmodel_filename}
       (offset (xyz ${p.led_3dmodel_xyz_offset[0]} ${p.led_3dmodel_xyz_offset[1]} ${p.led_3dmodel_xyz_offset[2]}))
       (scale (xyz ${p.led_3dmodel_xyz_scale[0]} ${p.led_3dmodel_xyz_scale[1]} ${p.led_3dmodel_xyz_scale[2]}))
       (rotate (xyz ${p.led_3dmodel_xyz_rotation[0]} ${p.led_3dmodel_xyz_rotation[1]} ${p.led_3dmodel_xyz_rotation[2]}))
     )
-      `;
+      `
 
-		let final = standard_opening;
+    let final = standard_opening;
 
-		if (p.side == 'F' || p.reversible) {
-			if (p.reverse_mount) {
-				final += marks_reversed;
-				final += front_reversed;
-			} else {
-				final += marks_straight;
-				final += front;
-			}
-			if (p.include_courtyard) {
-				final += courtyard_front;
-			}
-		}
-		if (p.side == 'B' || p.reversible) {
-			if (p.reverse_mount) {
-				final += back_reversed;
-				final += marks_reversed;
-			} else {
-				final += marks_straight;
-				final += back;
-			}
-			if (p.include_courtyard) {
-				final += courtyard_back;
-			}
-		}
+    if (p.side == "F" || p.reversible) {
+      if (p.reverse_mount) {
+        final += marks_reversed;
+        final += front_reversed;
+      } else {
+        final += marks_straight;
+        final += front;
+      }
+      if (p.include_courtyard) {
+        final += courtyard_front;
+      }
+    }
+    if (p.side == "B" || p.reversible) {
+      if (p.reverse_mount) {
+        final += back_reversed;
+        final += marks_reversed;
+      } else {
+        final += marks_straight;
+        final += back;
+      }
+      if (p.include_courtyard) {
+        final += courtyard_back;
+      }
+    }
 
-		if (p.led_3dmodel_filename) {
-			final += led_3dmodel;
-		}
+    if (p.led_3dmodel_filename) {
+      final += led_3dmodel
+    }
 
-		final += standard_closing;
-		if (p.include_keepout) {
-			final += keepout;
-		}
-		if (p.reversible && p.include_traces_vias) {
-			if (p.reverse_mount) {
-				final += traces_vias_reversed;
-			} else {
-				final += traces_vias_straight;
-			}
-		}
+    final += standard_closing;
+    if (p.include_keepout) {
+      final += keepout;
+    }
+    if (p.reversible && p.include_traces_vias) {
+      if (p.reverse_mount) {
+        final += traces_vias_reversed;
+      } else {
+        final += traces_vias_straight;
+      }
+    }
 
-		if (p.include_gnd_via) {
-			final += gnd_via_reversed;
-		}
-
-		return final;
-	},
-};
+    return final;
+  }
+}

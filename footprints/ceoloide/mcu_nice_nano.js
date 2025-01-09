@@ -380,14 +380,22 @@ module.exports = {
       if (show_silk_labels == true) {
         if (p.reversible || p.show_silk_labels_on_both_sides || p.side == 'F') {
           // Silkscreen labels - front
-          if (row_num != 10 || (!p.include_extra_pins && p.reversible) || (p.include_extra_pins && invert_pins && !p.reversible) || (!p.include_extra_pins && !p.reversible)) {
+          if (row_num != 9
+            || !p.include_extra_pins
+            || (p.include_extra_pins && invert_pins && !p.reversible) 
+            || (p.include_extra_pins && !p.only_required_jumpers && p.reversible)
+          ) {
             socket_row += `
     (fp_text user "${net_silk_front_left}" (at -${p.reversible && (row_num < 4 || !p.only_required_jumpers) ? (net_silk_front_left.length > 2 ? 1.45 : 2.04) : 4.47} ${-12.7 + row_offset_y} ${p.r}) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
     )
             `
           }
-          if (row_num != 10 || (!p.include_extra_pins && p.reversible) || (p.include_extra_pins && !invert_pins && !p.reversible) || (!p.include_extra_pins && !p.reversible)) {
+          if (row_num != 9 
+            || !p.include_extra_pins
+            || (p.include_extra_pins && !invert_pins && !p.reversible)
+            || (p.include_extra_pins && !p.only_required_jumpers && p.reversible)
+          ) {
             socket_row += `
     (fp_text user "${net_silk_front_right}" (at ${p.reversible && (row_num < 4 || !p.only_required_jumpers) ? (net_silk_front_right.length > 2 ? 1.45 : 2.04) : 4.47} ${-12.7 + row_offset_y} ${p.r}) (layer "F.SilkS")
       (effects (font (size 1 1) (thickness 0.15)))
@@ -397,14 +405,22 @@ module.exports = {
         }
         if (p.reversible|| p.show_silk_labels_on_both_sides || p.side == 'B') {
           // Silkscreen labels - back
-          if (row_num != 10 || (!p.include_extra_pins && p.reversible) || (p.include_extra_pins && !invert_pins && !p.reversible) || (!p.include_extra_pins && !p.reversible)) {
+          if (row_num != 9 
+            || !p.include_extra_pins
+            || (p.include_extra_pins && !invert_pins && !p.reversible) 
+            || (p.include_extra_pins && !p.only_required_jumpers && p.reversible)
+          ) {
             socket_row += `
     (fp_text user "${net_silk_back_left}" (at ${p.reversible ? '-' : ''}${p.reversible && (row_num < 4 || !p.only_required_jumpers) ? (net_silk_back_left.length > 2 ? 1.45 : 2.04) : 4.47} ${-12.7 + row_offset_y} ${p.r}) (layer "B.SilkS")
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
     )
             `
           }
-          if (row_num != 10 || (!p.include_extra_pins && p.reversible) || (p.include_extra_pins && invert_pins && !p.reversible) || (!p.include_extra_pins && !p.reversible)) {
+          if (row_num != 9 
+            || !p.include_extra_pins
+            || (p.include_extra_pins && invert_pins && !p.reversible) 
+            || (p.include_extra_pins && !p.only_required_jumpers && p.reversible)
+          ) {
             socket_row += `
     (fp_text user "${net_silk_back_right}" (at ${p.reversible ? '' : '-'}${p.reversible && (row_num < 4 || !p.only_required_jumpers) ? (net_silk_back_right.length > 2 ? 1.45 : 2.04) : 4.47} ${-12.7 + row_offset_y} ${p.r}) (layer "B.SilkS")
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
@@ -541,13 +557,13 @@ module.exports = {
     const traces = gen_traces()
 
     const extra_pins = `
-    (pad "25" thru_hole circle (at ${invert_pins ? '' : '-'}5.08 ${-12.7 + 25.4} ${p.r}) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") ${p.P101})
-    (pad "26" thru_hole circle (at ${invert_pins ? '' : '-'}2.54 ${-12.7 + 25.4} ${p.r}) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") ${p.P102})
-    (pad "27" thru_hole circle (at 0 ${-12.7 + 25.4} ${p.r}) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") ${p.P107})
+    (pad "25" thru_hole circle (at ${invert_pins ? '' : '-'}5.08 10.16 ${p.r}) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") ${p.P101})
+    (pad "26" thru_hole circle (at ${invert_pins ? '' : '-'}2.54 10.16 ${p.r}) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") ${p.P102})
+    (pad "27" thru_hole circle (at 0 10.16 ${p.r}) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") ${p.P107})
     `
     const extra_pins_reversible = `
-    (pad "28" thru_hole circle (at ${invert_pins ? '-' : ''}5.08 ${-12.7 + 25.4} ${p.r}) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") ${p.P101})
-    (pad "29" thru_hole circle (at ${invert_pins ? '-' : ''}2.54 ${-12.7 + 25.4} ${p.r}) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") ${p.P102})
+    (pad "28" thru_hole circle (at ${invert_pins ? '-' : ''}5.08 10.16 ${p.r}) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") ${p.P101})
+    (pad "29" thru_hole circle (at ${invert_pins ? '-' : ''}2.54 10.16 ${p.r}) (size 1.7 1.7) (drill 1) (layers "*.Cu" "*.Mask") ${p.P102})
     `
 
     const mcu_3dmodel = `
